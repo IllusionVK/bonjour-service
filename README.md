@@ -69,6 +69,7 @@ Options are:
 - `protocol` (string, optional) - `udp` or `tcp` (default)
 - `txt` (object, optional) - a key/value object to broadcast as the TXT
   record
+- `getDelayValue` (function (delay: number, factor: number) => number, optional) - The function to set the delay time before broadcast. Default broadcasts right away, then after 3 seconds, 9 seconds, 27 seconds, ...
 
 IANA maintains a [list of official service types and port
 numbers](http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml).

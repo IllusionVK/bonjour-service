@@ -21,6 +21,9 @@ export interface ServiceConfig {
     txt?        : KeyValue
 
     probe?      : boolean
+
+    getDelayValue?: (delay: number, factor: number) => number
+    reannounceMaxInMS?: number
 }
 
 export interface ServiceRecord {
@@ -59,6 +62,9 @@ export class Service extends EventEmitter {
     public start?       : any
     public stop?        : any
 
+    public getDelayValue?    : (delay: number, factor: number) => number
+    public reannounceMaxInMS?: number
+
     private txtService  : DnsTxt
 
     constructor(config: ServiceConfig) {
@@ -78,6 +84,9 @@ export class Service extends EventEmitter {
         this.fqdn       = `${this.name}.${this.type}${TLD}`
         this.txt        = config.txt
         this.subtypes   = config.subtypes
+
+        this.getDelayValue   = config.getDelayValue
+        this.reannounceMaxInMS   = config.reannounceMaxInMS
     }
 
 

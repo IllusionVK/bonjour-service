@@ -1,8 +1,9 @@
 import flatten                                      from 'array-flatten'
 import dnsEqual                                     from 'dns-equal'
+import timers                                       from 'timers'
+
 import Server                                       from './mdns-server'
 import Service, { ServiceConfig, ServiceRecord }    from './service'
-
 
 
 const REANNOUNCE_MAX_MS : number    = 60 * 60 * 1000
@@ -90,7 +91,7 @@ export class Registry {
                 // This function will optionally be called with an error object. We'll
                 // just silently ignore it and retry as we normally would
                 sent = true
-                timer = setTimeout(++retries < 3 ? send : done, 250)
+                timer = timers.setTimeout(++retries < 3 ? send : done, 250)
                 timer.unref()
             })
         }
@@ -146,9 +147,24 @@ export class Registry {
                     service.published = true
                     service.emit('up')
                 }
-                delay = delay * REANNOUNCE_FACTOR
-                if (delay < REANNOUNCE_MAX_MS && !service.destroyed) {
-                    setTimeout(broadcast, delay).unref()
+
+                if (typeof service.getDelayValue == 'function') {
+                    delay = service.getDelayValue(delay, REANNOUNCE_FACTOR)
+                } else {
+                    delay = delay * REANNOUNCE_FACTOR
+                }
+
+                let reannounce_max_ms = service.reannounceMaxInMS || 0;
+                if (service.reannounceMaxInMS == undefined) {
+                    reannounce_max_ms = REANNOUNCE_MAX_MS;
+                }
+
+                console.log(`bonjour broadcast on ${
+                    new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'long' })
+                }, delay: ${delay}ms`)
+
+                if ((!reannounce_max_ms || delay < reannounce_max_ms) && !service.destroyed) {
+                    timers.setTimeout(broadcast, delay).unref()
                 }
             })
         }
