@@ -46,7 +46,7 @@ export class Browser extends EventEmitter {
 
     private _services    : Array<any> = []
 
-    constructor(mdns: any, opts: any, onup?: (service: Service) => void) {
+    constructor(mdns: any, opts: any, onup?: (service: Service) => void, ondown?: (service: Service) => void) {
         super()
 
         if (typeof opts === 'function') return new Browser(mdns, null, opts)
@@ -72,6 +72,8 @@ export class Browser extends EventEmitter {
         if(opts != null && opts.txt !== undefined) this.txtQuery = filterTxt(opts.txt)
 
         if (onup) this.on('up', onup)
+
+        if (ondown) this.on('down', ondown)
 
         this.start()
     }

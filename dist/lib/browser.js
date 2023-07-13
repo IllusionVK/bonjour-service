@@ -13,7 +13,7 @@ const filter_txt_1 = __importDefault(require("./utils/filter-txt"));
 const TLD = '.local';
 const WILDCARD = '_services._dns-sd._udp' + TLD;
 class Browser extends events_1.EventEmitter {
-    constructor(mdns, opts, onup) {
+    constructor(mdns, opts, onup, ondown) {
         super();
         this.onresponse = null;
         this.serviceMap = {};
@@ -42,6 +42,8 @@ class Browser extends events_1.EventEmitter {
             this.txtQuery = (0, filter_txt_1.default)(opts.txt);
         if (onup)
             this.on('up', onup);
+        if (ondown)
+            this.on('down', ondown);
         this.start();
     }
     start() {

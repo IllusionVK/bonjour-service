@@ -21,8 +21,8 @@ class Bonjour {
     unpublishAll(callback) {
         return this.registry.unpublishAll(callback);
     }
-    find(opts = undefined, onup) {
-        return new browser_1.default(this.server.mdns, opts, onup);
+    find(opts = undefined, onup, ondown) {
+        return new browser_1.default(this.server.mdns, opts, onup, ondown);
     }
     findOne(opts = undefined, timeout = 10000, callback) {
         const browser = new browser_1.default(this.server.mdns, opts);

@@ -85,7 +85,7 @@ Destroy the mdns instance. Closes the udp socket.
 
 ### Browser
 
-#### `var browser = bonjour.find(options[, onup])`
+#### `var browser = bonjour.find(options[, onup, ondown])`
 
 Listen for services advertised on the network. An optional callback can
 be provided as the 2nd argument and will be added as an event listener

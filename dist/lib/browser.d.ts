@@ -16,7 +16,7 @@ export declare class Browser extends EventEmitter {
     private txtQuery;
     private wildcard;
     private _services;
-    constructor(mdns: any, opts: any, onup?: (service: Service) => void);
+    constructor(mdns: any, opts: any, onup?: (service: Service) => void, ondown?: (service: Service) => void);
     start(): void;
     stop(): void;
     update(): void;

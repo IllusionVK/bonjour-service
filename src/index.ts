@@ -41,10 +41,12 @@ export class Bonjour {
      * Find services on the network with options
      * @param opts BrowserConfig
      * @param onup Callback when up event received
+     * @param ondown Callback when down event received
      * @returns
      */
-    public find(opts: BrowserConfig | undefined = undefined, onup?: (service: Service) => void): Browser {
-        return new Browser(this.server.mdns, opts, onup)
+    public find(opts: BrowserConfig | undefined = undefined, onup?: (service: Service) => void, 
+        ondown?: (service: Service) => void): Browser {
+        return new Browser(this.server.mdns, opts, onup, ondown)
     }
 
     /**
